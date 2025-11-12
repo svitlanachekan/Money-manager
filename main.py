@@ -107,33 +107,41 @@ def main(): #створюваємо def, функція, яка означає, 
 
         try: # перевірка на наявність помилок
             choice = int(input("Ваш вибір: "))
+        except ValueError: # неправильно ввели число і виявилась помилка
+            print("Enter number 1-6!!")
+            continue
 
+            # choice = int(input("Ваш вибір: "))
             # if choice == 1:
             #     pass
             # elif choice == 2:
             #     pass
-            match choice: # перевіряємо значення змінної "вибір"
-                case 1:
-                    try: # перевіряє правильність виконання коду для додавання товару 
-                        add_item(shopping_list)
-                    except: # якщо виникає помилка, програма далі не працює
-                        print("Error!")
-                case 2:
-                    show_list(shopping_list)
-                case 3:
-                    count_total(shopping_list)
-                case 4:
-                    save_to_file(shopping_list)
-                case 5:
+        match choice: # перевіряємо значення змінної "вибір"
+            case 1:
+                try: # перевіряє правильність виконання коду для додавання товару 
+                    add_item(shopping_list)
+                # except:
+                #   print("Error")
+                except Exception as e: # ключове слово помилки: а що там саме трапилось , до чого я звертаюсь
+                    print(f"Your error: {e}") # видає помилку у списку (де стоїть список з ключами і значеннями списку)
+            case 2:
+                show_list(shopping_list)
+            case 3:
+                count_total(shopping_list)
+            case 4:
+                save_to_file(shopping_list)
+            case 5:
+                try:
                     shopping_list = load_from_file() # запамʼятовує ззовні (результат запамаятай до змінної)
-                case 6:
-                    print("See you!!")
-                    break
-                case _: # накшталт else
-                    print("Error! Enter number 1-6!")
+                except FileNotFoundError:
+                    print("File Not Found Error")
+            case 6:
+                print("See you!!")
+                break
+            case _: # накшталт else
+                print("Error! Enter number 1-6!")
                     
-        except ValueError:
-            print("Enter number 1-6!!")
+        
 
 
 if __name__ == "__main__": #якщо імʼя співпадає, то виконай main
