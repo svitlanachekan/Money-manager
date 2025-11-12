@@ -15,7 +15,7 @@
 # Введіть ціну за одиницю: 25
 # ✅ Хліб додано до списку!
 
-def add_item(shopping_list): # додаємо до списку покупок това
+def add_item(shopping_list): # додаємо до списку покупок товар
     name = input("Enter a name: ") # найменування
     quantity = int(input("Enter a quantity: ")) # кількість
     price = float(input("Enter a price: ")) # ціна
@@ -64,31 +64,32 @@ def save_to_file(shopping_list): # зберігаємо список до тек
     #     f.write("Ok")
     #     f.write("2 line")
     #     f.write("new_line")
-    with open("text.txt", "w", encoding="utf-8") as f: # щоб зберігти файл, спочатку потрібно відкрити, при умові написання українскькою зазначаємо шифрування utf-8, файл не потрібно закривати - робить автоматично
+    with open("text.txt", "w", encoding="utf-8") as f: # щоб зберігти файл, спочатку потрібно відкрити, при умові написання українскькою зазначаємо шифрування utf-8, файл не потрібно закривати - робить автоматично 
         for i, item in enumerate(shopping_list, start=1): # зберігаючи файл, знов проходить по списку з першого та до і-того
             # print(i, item)
             f.write(f"{i}. {item["name"]} - {item["quantity"]} x {item["price"]}€\n") # кожний новий товар виводиться з нового рядку за допомогою \n
     print("✅Shopping_list saved to text.txt") # виводить список покупок у текстовому файлі (окрема вкладка .txt)
 
-def load_from_file():
-    shopping_list = []
-    with open("text.txt", "r", encoding="utf-8") as f:
-        for line in f:
-            line_list = line.strip()[:-1].split()
+def load_from_file(): # повернує список і більше нічого
+    shopping_list = [] # локальна змінна, яка існує лише у ф-ції
+    with open("text.txt", "r", encoding="utf-8") as f: # відкриває та автоматично закриває, конструкція потрубує as f:
+        for line in f: # для кожного рядка
+            line_list = line.strip()[:-1].split() # забрирає пробіли, розділяє на елементи списку
             # for i in range(1, len(line_list), 2):
-            name, quantity, price = line_list[1], line_list[3], line_list[5]
-            item = {
+            name, quantity, price = line_list[1], line_list[3], line_list[5] # звертаємося до значення 
+            item = { # 
                 "name": name,
                 "quantity": int(quantity),
                 "price": float(price)
             }
-            shopping_list.append(item)
-    return shopping_list
+            shopping_list.append(item) 
+    print("✅Load file") #файл завантажено
+    return shopping_list # локальна змінна віддасть просто список, який не зберегли (локальна зміна не існує поза межами ф-ції)
 
                 
 
 
-def main():
+def main(): #створюваємо def, функція, яка означає, що з чого буде програма взагалі, що вона повинна робити. Ну, це наша звичайна метa
     print("Вітаю у менеджері покупок!")
     shopping_list = []
 
@@ -111,11 +112,11 @@ def main():
             #     pass
             # elif choice == 2:
             #     pass
-            match choice:
+            match choice: # перевіряємо значення змінної "вибір"
                 case 1:
-                    try:
+                    try: # перевіряє правильність виконання коду для додавання товару 
                         add_item(shopping_list)
-                    except:
+                    except: # якщо виникає помилка, програма далі не працює
                         print("Error!")
                 case 2:
                     show_list(shopping_list)
@@ -124,7 +125,7 @@ def main():
                 case 4:
                     save_to_file(shopping_list)
                 case 5:
-                    load_from_file()
+                    shopping_list = load_from_file() # запамʼятовує ззовні (результат запамаятай до змінної)
                 case 6:
                     print("See you!!")
                     break
